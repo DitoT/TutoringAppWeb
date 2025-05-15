@@ -1,13 +1,54 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const Home = () => {
   const navigate = useNavigate();
 
+  const [formData, setFormData] = useState({
+  fullname: '',
+  email: '',
+  subject: '',
+  message: ''
+});
+
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.id]: e.target.value
+  });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post('http://localhost:5000/api/contact', formData); // Adjust URL if different
+    alert(response.data.message);
+    setFormData({ fullname: '', email: '', subject: '', message: '' });
+  } catch (err) {
+    alert(err.response?.data?.message || "Something went wrong!");
+  }
+};
+
+
   return (
     <div>
+      
+        <style>
+          {`
+            .hover-grow {
+              transition: transform 0.3s ease;
+            }
+
+            .hover-grow:hover {
+              transform: scale(1.05);
+            }
+          `}
+        </style>
+
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <div className="container">
@@ -49,14 +90,14 @@ const Home = () => {
       {/* Subjects Section */}
       <div className="container my-5">
         <h2 className="text-center mb-4">Subjects We Cover</h2>
-        <div className="row row-cols-1 row-cols-md-3 g-4 text-center">
+        <div className="row row-cols-1 row-cols-md-3 g-4 text-center" onClick={() => navigate('/main_login_form')}>
           {[
             'Mathematics', 'Physics', 'Chemistry', 'Biology', 'English',
             'History', 'Geography', 'Computer Science', 'Economics', 'Literature',
             'French', 'German', 'Spanish', 'Art', 'Etc'
           ].map((subject, index) => (
             <div key={index} className="col">
-              <div className="card h-100 border-primary shadow-sm">
+              <div className="card h-100 border-primary shadow-sm hover-grow">
                 <div className="card-body">
                   <h5 className="card-title">{subject}</h5>
                 </div>
@@ -69,7 +110,7 @@ const Home = () => {
       {/* Featured Tutors Section */}
       <div className="container my-5">
         <h2 className="text-center mb-4">Meet Our Top Tutors</h2>
-        <div className="row row-cols-1 row-cols-md-3 g-4 text-center">
+        <div className="row row-cols-1 row-cols-md-3 g-4 text-center" onClick={() => navigate('/main_login_form')}>
           {[
             {
               name: 'Alice Johnson',
@@ -88,7 +129,7 @@ const Home = () => {
             }
           ].map((tutor, index) => (
             <div key={index} className="col">
-              <div className="card h-100 shadow-sm">
+              <div className="card h-100 shadow-sm hover-grow">
                 <img src={tutor.img} className="card-img-top" alt={tutor.name} />
                 <div className="card-body">
                   <h5 className="card-title">{tutor.name}</h5>
@@ -117,25 +158,26 @@ const Home = () => {
         <h2 className="text-center mb-4">Contact Us</h2>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">Full Name</label>
-                <input type="text" className="form-control" id="name" placeholder="Enter your full name" />
+                <input type="text" className="form-control" id="fullname" placeholder="Enter your full name" value={formData.fullname} onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email Address</label>
-                <input type="email" className="form-control" id="email" placeholder="Enter your email" />
+                <input type="email" className="form-control" id="email" placeholder="Enter your email" value={formData.email} onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="subject" className="form-label">Subject</label>
-                <input type="text" className="form-control" id="subject" placeholder="Subject of your message" />
+                <input type="text" className="form-control" id="subject" placeholder="Subject of your message" value={formData.subject} onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label htmlFor="message" className="form-label">Message</label>
-                <textarea className="form-control" id="message" rows="5" placeholder="Write your message here..."></textarea>
+                <textarea className="form-control" id="message" rows="5" placeholder="Write your message here..." value={formData.message} onChange={handleChange}></textarea>
               </div>
               <button type="submit" className="btn btn-primary w-100">Send Message</button>
             </form>
+
           </div>
         </div>
       </div>

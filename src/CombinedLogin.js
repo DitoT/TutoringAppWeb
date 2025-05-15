@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 
 const CombinedLogin = () => {
   const [role, setRole] = useState('student');
@@ -37,7 +37,9 @@ const CombinedLogin = () => {
           localStorage.setItem('teacherId', teacher.id);
           navigate('/teacher_dashboard');
         } else if (role === 'student' && data.student) {
+          const { token } = data; 
           const { id, username } = data.student;
+          localStorage.setItem('token', token); 
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('username', username);
           localStorage.setItem('studentId', id.toString());
@@ -109,7 +111,7 @@ const CombinedLogin = () => {
             </small>
           </div>
         )}
-
+        {/*
         <div className="text-center mt-3">
           <small>
             Forgot your credentials?{' '}
@@ -130,7 +132,7 @@ const CombinedLogin = () => {
             </button>
           </small>
         </div>
-
+          */ }
           <div className="text-center mt-4">
           <Link to="/" className="btn btn-outline-secondary w-100">
             ← Go Back to Home

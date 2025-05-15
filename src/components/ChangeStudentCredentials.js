@@ -11,25 +11,36 @@ const ChangeStudentCredentials = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleChange = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`http://localhost:5000/api/student_cred_change/${id}`, {
+const handleChange = async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await axios.post(
+      `http://localhost:5000/api/student_cred_change/${id}`,
+      {
         currentPassword,
         newPassword,
         newUsername,
-      });
-
-      if (response.data.success) {
-        setSuccess(response.data.message);
-        setError('');
-        setTimeout(() => navigate('/student_dashboard'), 1500);
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-      setSuccess('');
+    );
+
+    if (response.data.success) {
+      setSuccess(response.data.message);
+      setError('');
+      setTimeout(() => navigate('/dashboard'), 1500);
     }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || 'Something went wrong');
+    setSuccess('');
+  }
+};
 
   return (
     <div className="container mt-5">
@@ -71,7 +82,7 @@ const ChangeStudentCredentials = () => {
         </div>
         <div className="d-flex justify-content-between">
           <button type="submit" className="btn btn-success">Update</button>
-          <button type="button" className="btn btn-secondary" onClick={() => navigate('/student_dashboard')}>
+          <button type="button" className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
             Go Back
           </button>
         </div>

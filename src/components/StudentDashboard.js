@@ -78,10 +78,12 @@ const StudentDashboard = () => {
 
   // Navigate to Change Credentials page
   const handleChangeCredentials = () => {
-    if (studentId) {
-      navigate(`/student/change_credentials/${studentId}`);
-    }
+    const userId = localStorage.getItem('studentId');
+    // console.log(userId)
+    navigate(`/student/change_credentials/${userId}`);
+   
   };
+
 
   return (
     <div className="container mt-5">
