@@ -25,7 +25,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await axios.post('http://localhost:5000/api/contact', formData); // Adjust URL if different
+    const response = await axios.post('http://localhost:5000/api/contact', formData);
     alert(response.data.message);
     setFormData({ fullname: '', email: '', subject: '', message: '' });
   } catch (err) {
@@ -36,7 +36,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div>
-      
+
         <style>
           {`
             .hover-grow {

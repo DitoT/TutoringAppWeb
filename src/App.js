@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 
+// Admin
+import AdminLogin from './adminComponent/AdminLogin';
+
 // Credentials Change
 // import ChangeCredentials from './ChangeCredentials';
 import ChangeStudentCredentials from './components/ChangeStudentCredentials';
@@ -23,6 +26,7 @@ import TeacherDashboard from './teacherComponent/teacherDashboard';
 import EditTeacherProfile from './teacherComponent/EditTeacherProfile';
 // import TeacherLogin from './teacherComponent/teacherLogin';
 // import TeacherRegisterForm from './teacherComponent/TRegister';
+import AdminDashboard from './adminComponent/AdminDashboard';
 
 import Home from './Home';
 
@@ -48,6 +52,9 @@ const App = () => {
           {/* <Route path="/teacher_reg" element={<TeacherRegisterForm />}/> */}
 
           <Route path="/student/change_credentials/:id" element={<ChangeStudentCredentials />} />
+
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
         </Routes>
       </Router>

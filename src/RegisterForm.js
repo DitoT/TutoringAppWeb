@@ -56,7 +56,7 @@ const RegisterForm = () => {
       } else {
         const response = await axios.post('http://localhost:5000/api/register_teachers', teacherData);
         if (response.data.success) {
-          setMessage('Teacher registration successful!');
+          setMessage('Your application to register as teacher has been sent, our support will approve as soon as possibe');
           setTeacherData({
             firstname: '', lastname: '', email: '', phone: '', address: '', description: '',
             subject: '', price: '', img_url: '', availability: '', tutoring_location: 'Online',
